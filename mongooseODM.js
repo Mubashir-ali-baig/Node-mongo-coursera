@@ -5,13 +5,10 @@ const url="mongodb+srv://admin:admin@node.2trvo.mongodb.net/node?retryWrites=tru
 const connect=mongoose.connect(url,{useNewUrlParser:true,useUnifiedTopology:true})
 connect.then((db)=>{
     console.log("Connected correctly to the DB");
-    var newDish = Dishes({
-        name:'Uthappizza',
+    Dishes.create({
+        name:'Custard Bowl',
         description:'test'
-    });
-
-    newDish.save()
-        .then((dish)=>{
+    }).then((dish)=>{
         console.log(dish);
        return Dishes.find({}).exec();
     })
@@ -21,5 +18,7 @@ connect.then((db)=>{
     .catch((err)=>{
         console.log(err)
     })
+
+    
 })
 
