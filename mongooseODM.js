@@ -6,11 +6,25 @@ const connect=mongoose.connect(url,{useNewUrlParser:true,useUnifiedTopology:true
 connect.then((db)=>{
     console.log("Connected correctly to the DB");
     Dishes.create({
-        name:'Custard Bowl',
-        description:'test'
+        name:'Bacon Bowl',
+        description:'test',
+
     }).then((dish)=>{
         console.log(dish);
-       return Dishes.find({}).exec();
+       return Dishes.findByIdAndUpdate(dish._id,{
+           $set:{description:'Updated test'}
+        },{
+            new:true
+       }).exec();
+    })
+    .then((dish)=>{
+        console.log(dish);
+        dish.comments.push({
+            rating:5,
+            comment:'Its is good dish',
+            author:'Joe Biden'
+        })
+        return dish.save();
     })
     .then(()=>{
         return mongoose.connection.close()
